@@ -14,13 +14,18 @@ class MainViewModel(private val getWeatherUseCase: GetWeatherUseCase) : ViewMode
     val newsHeadLines: MutableLiveData<Resource<WeatherResponse>> = MutableLiveData()
 
     fun getWeather() {
+        newsHeadLines.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val apiResult = getWeatherUseCase.execute("4418")
+                val apiResult = getWeatherUseCase.execute(Companion.TORONTO_ID)
                 newsHeadLines.postValue(apiResult)
             } catch (e: Exception) {
                 newsHeadLines.postValue(Resource.Error(e.message.toString()))
             }
         }
+    }
+
+    companion object {
+        private const val TORONTO_ID = "4418"
     }
 }

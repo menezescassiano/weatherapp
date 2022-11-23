@@ -12,5 +12,5 @@ data class ConsolidatedWeather(
     @SerializedName("max_temp")
     val maxTemp: Float,
     @SerializedName("the_temp")
-    val theTemp: String
+    val theTemp: Float
 )
