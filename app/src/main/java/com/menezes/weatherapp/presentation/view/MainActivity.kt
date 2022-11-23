@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import com.menezes.weatherapp.R
 import com.menezes.weatherapp.databinding.ActivityMainBinding
 import com.menezes.weatherapp.presentation.viewmodel.MainViewModel
 import com.menezes.weatherapp.presentation.viewmodel.MainViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.math.roundToInt
+import okhttp3.internal.format
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -29,8 +32,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupObservers() {
         viewModel.newsHeadLines.observe(this) { response ->
-            binding.progressBar.isVisible = false
-            binding.mainText.text = response.data?.title
+            binding.apply {
+                progressBar.isVisible = false
+                mainText.text = response.data?.title
+                temperatureText.text = getString(
+                    R.string.current_temperature,
+                    response.data?.consolidatedWeather?.first()?.theTemp.orEmpty()
+                )
+                stateNameText.text =
+                    response.data?.consolidatedWeather?.first()?.weatherStateName.orEmpty()
+                lowAndHighTemperatureText.text = getString(
+                    R.string.low_and_high_temperatures,
+                    (response.data?.consolidatedWeather?.first()?.minTemp)?.roundToInt(),
+                    (response.data?.consolidatedWeather?.first()?.maxTemp)?.roundToInt()
+                )
+            }
         }
     }
 

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">weatherapp</string>
+    <string name="current_temperature">%1$sº</string>
+    <string name="low_and_high_temperatures">L: %1$sº H: %2$sº</string>
 </resources>

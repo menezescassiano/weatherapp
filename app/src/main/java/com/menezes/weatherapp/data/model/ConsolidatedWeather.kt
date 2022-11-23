@@ -8,7 +8,9 @@ data class ConsolidatedWeather(
     @SerializedName("weather_state_abbr")
     val weatherStateAbbr: String,
     @SerializedName("min_temp")
-    val minTemp: String,
+    val minTemp: Float,
     @SerializedName("max_temp")
-    val maxTemp: String
+    val maxTemp: Float,
+    @SerializedName("the_temp")
+    val theTemp: String
 )
