@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetModule {
+class NetworkModule {
     @Singleton
     @Provides
     fun provideRetrofit(): Retrofit {

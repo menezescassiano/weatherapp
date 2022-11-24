@@ -1,5 +1,6 @@
 package com.menezes.weatherapp.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,16 +12,19 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val getWeatherUseCase: GetWeatherUseCase) : ViewModel() {
 
-    val newsHeadLines: MutableLiveData<Resource<WeatherResponse>> = MutableLiveData()
+    val weatherInfo: LiveData<Resource<WeatherResponse>>
+        get() = _weatherInfo
+
+    private val _weatherInfo: MutableLiveData<Resource<WeatherResponse>> = MutableLiveData()
 
     fun getWeather() {
-        newsHeadLines.postValue(Resource.Loading())
+        _weatherInfo.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val apiResult = getWeatherUseCase.execute(Companion.TORONTO_ID)
-                newsHeadLines.postValue(apiResult)
+                val apiResult = getWeatherUseCase.execute(TORONTO_ID)
+                _weatherInfo.postValue(apiResult)
             } catch (e: Exception) {
-                newsHeadLines.postValue(Resource.Error(e.message.toString()))
+                _weatherInfo.postValue(Resource.Error(e.message.toString()))
             }
         }
     }

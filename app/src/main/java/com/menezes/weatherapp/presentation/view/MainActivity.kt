@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.menezes.weatherapp.R
+import com.menezes.weatherapp.data.model.WeatherResponse
 import com.menezes.weatherapp.data.util.Resource
 import com.menezes.weatherapp.databinding.ActivityMainBinding
 import com.menezes.weatherapp.presentation.util.UrlUtil
@@ -40,37 +41,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        viewModel.newsHeadLines.observe(this) { response ->
+        viewModel.weatherInfo.observe(this) { response ->
+            setupUi(response)
+        }
+    }
+
+    private fun setupUi(response: Resource<WeatherResponse>) {
+        binding.apply {
             when (response) {
                 is Resource.Success -> {
-                    binding.apply {
-                        progressBar.isVisible = false
-                        mainText.text = response.data?.title
-                        temperatureText.text = getString(
-                            R.string.current_temperature,
-                            response.data?.consolidatedWeather?.first()?.theTemp?.roundToInt()
-                        )
-                        stateNameText.text =
-                            response.data?.consolidatedWeather?.first()?.weatherStateName.orEmpty()
-                        lowAndHighTemperatureText.text = getString(
-                            R.string.low_and_high_temperatures,
-                            response.data?.consolidatedWeather?.first()?.minTemp?.roundToInt(),
-                            response.data?.consolidatedWeather?.first()?.maxTemp?.roundToInt()
-                        )
-                        Glide.with(binding.imageView.context)
-                            .load(UrlUtil.imageUrlFormat(response.data?.consolidatedWeather?.first()?.weatherStateAbbr.orEmpty()))
-                            .into(binding.imageView)
-                    }
+                    progressBar.isVisible = false
+                    mainText.text = response.data?.title
+                    temperatureText.text = getString(
+                        R.string.current_temperature,
+                        response.data?.consolidatedWeather?.first()?.theTemp?.roundToInt()
+                    )
+                    stateNameText.text =
+                        response.data?.consolidatedWeather?.first()?.weatherStateName.orEmpty()
+                    lowAndHighTemperatureText.text = getString(
+                        R.string.low_and_high_temperatures,
+                        response.data?.consolidatedWeather?.first()?.minTemp?.roundToInt(),
+                        response.data?.consolidatedWeather?.first()?.maxTemp?.roundToInt()
+                    )
+                    Glide.with(binding.imageView.context)
+                        .load(UrlUtil.imageUrlFormat(response.data?.consolidatedWeather?.first()?.weatherStateAbbr.orEmpty()))
+                        .into(binding.imageView)
+
                 }
                 is Resource.Error -> {
-                    binding.progressBar.isVisible = false
-                    binding.errorMessage.isVisible = true
+                    progressBar.isVisible = false
+                    errorMessage.isVisible = true
                 }
                 else -> {
-                    binding.progressBar.isVisible = true
+                    progressBar.isVisible = true
                 }
             }
         }
     }
-
 }

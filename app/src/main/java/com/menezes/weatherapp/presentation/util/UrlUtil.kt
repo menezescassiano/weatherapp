@@ -5,8 +5,8 @@ import com.menezes.weatherapp.BuildConfig
 object UrlUtil {
 
     private const val ICONS_PATH = "icons/"
-    private const val FORMAT_PATH = ".png"
+    private const val IMG_FORMAT = ".png"
 
-    fun imageUrlFormat(string: String) = BuildConfig.BASE_URL + ICONS_PATH + string + FORMAT_PATH
+    fun imageUrlFormat(string: String) = BuildConfig.BASE_URL + ICONS_PATH + string + IMG_FORMAT
 
 }
