@@ -15,10 +15,8 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideNewsRepository(
-        newsRemoteDataSource: WeatherRemoteDataSource
-    ): WeatherRepository {
-        return WeatherRepositoryImpl(newsRemoteDataSource)
+    fun provideWeatherRepository(weatherRemoteDataSource: WeatherRemoteDataSource): WeatherRepository {
+        return WeatherRepositoryImpl(weatherRemoteDataSource)
     }
 }
 

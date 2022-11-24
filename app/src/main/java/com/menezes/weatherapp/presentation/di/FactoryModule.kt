@@ -14,7 +14,7 @@ class FactoryModule {
 
     @Singleton
     @Provides
-    fun provideNewsViewModelFactory(getWeatherUseCase: GetWeatherUseCase): MainViewModelFactory {
+    fun provideMainViewModelFactory(getWeatherUseCase: GetWeatherUseCase): MainViewModelFactory {
         return MainViewModelFactory(getWeatherUseCase)
     }
 

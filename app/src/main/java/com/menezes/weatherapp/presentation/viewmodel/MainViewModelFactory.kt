@@ -4,18 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.menezes.weatherapp.domain.usecase.GetWeatherUseCase
 
-class MainViewModelFactory(private val getNewsHeadlinesUseCase: GetWeatherUseCase) :
+class MainViewModelFactory(private val getWeatherUseCase: GetWeatherUseCase) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MainViewModel(getNewsHeadlinesUseCase) as T
+        return MainViewModel(getWeatherUseCase) as T
     }
 }
-
-
-
-
-
-
-
-
-
